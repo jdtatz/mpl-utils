@@ -1,5 +1,5 @@
 from typing import Literal, Union
-from .monkeypatch import _mokeypatched_matplotlib_constrained_layout
+import mpl_utils.monkeypatch as monkeypatch
 from matplotlib.figure import FigureBase
 from matplotlib.legend import Legend
 
@@ -20,7 +20,7 @@ def move_legend_outside(
     if not outside:
         return
     # Either the patch has been upstreamed or the monkeypatch has been applied
-    if hasattr(lgd, "_outside") or _mokeypatched_matplotlib_constrained_layout:
+    if hasattr(lgd, "_outside") or monkeypatch._mokeypatched_matplotlib_constrained_layout:
         lgd._outside = outside
     elif lgd._loc == 1 and outside == True:
         lgd.set_bbox_to_anchor((1, 1))
