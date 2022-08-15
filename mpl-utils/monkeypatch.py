@@ -20,7 +20,8 @@ _mokeypatched_matplotlib_constrained_layout = False
 
 def mokeypatch_matplotlib_constrained_layout():
     """Monkeypatch `ENH: allow fig.legend outside axes... #19743` to fix Figure.legend in constrained layouts
-    https://github.com/matplotlib/matplotlib/pull/19743"""
+    https://github.com/matplotlib/matplotlib/pull/19743
+    """
     from functools import wraps
     import matplotlib._constrained_layout as constrained_layout
 
