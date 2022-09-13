@@ -1,4 +1,5 @@
-from typing import Literal, Union
+from typing import Union
+from typing_extensions import Literal
 import mpl_utils.monkeypatch as monkeypatch
 from matplotlib.figure import FigureBase
 from matplotlib.legend import Legend
