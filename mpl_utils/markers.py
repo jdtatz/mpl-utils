@@ -22,9 +22,7 @@ def centered_text_as_path(
     # dx, _, _ = textpath.text_to_path.get_text_width_height_descent("q", fp, ismath=ismath)
     # dy = font.get_size()
     w, h, _d = textpath.text_to_path.get_text_width_height_descent(s, fp, ismath=ismath)
-    trans = (
-        transforms.Affine2D.identity().scale(fp.get_size() / textpath.text_to_path.FONT_SCALE).translate(-w / 2, -h / 2)
-    )
+    trans = transforms.Affine2D().scale(fp.get_size() / textpath.text_to_path.FONT_SCALE).translate(-w / 2, -h / 2)
     verts, codes = textpath.text_to_path.get_text_path(fp, s)
     return path.Path(verts, codes, closed=False).transformed(trans)
 
@@ -35,6 +33,6 @@ def marker_with_text(base_marker, text: str) -> markers.MarkerStyle:
         base_marker = markers.MarkerStyle(base_marker)
     # ignoring alternate path for now
     base_path = base_marker.get_path().transformed(base_marker.get_transform())
-    text_path = centered_text_as_path(text).transformed(transforms.Affine2D.identity().scale(3 / 4))
+    text_path = centered_text_as_path(text).transformed(transforms.Affine2D().scale(3 / 4))
     marker_path = path.Path.make_compound_path(base_path, text_path)
     return markers.MarkerStyle(marker_path)

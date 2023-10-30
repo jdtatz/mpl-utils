@@ -18,14 +18,20 @@ def deduped_figure_legend(fig: FigureBase, **legend_kwargs) -> Legend:
 
 
 def move_legend_outside(lgd: Legend, outside: Union[bool, Literal["upper"], Literal["lower"]] = True):
+    import warnings
+
+    warnings.warn(
+        "Setting legend loc with `outside ...` has been upstreamed & prefered over moving it outside after creation, which can only be done using unstable internel methods",
+        category=DeprecationWarning,
+    )
+
     if not outside:
         return
-    # Either the patch has been upstreamed or the monkeypatch has been applied
-    if hasattr(lgd, "_outside") or monkeypatch._mokeypatched_matplotlib_constrained_layout:
-        lgd._outside = outside
-    elif lgd._loc == 1 and outside == True:
-        lgd.set_bbox_to_anchor((1, 1))
+    loc = lgd._loc_real
+    if not isinstance(loc, str):
+        raise NotImplementedError("Can only move legends that were defined with an inital `str` loc")
+    if outside:
+        loc = f"outside {loc}"
     else:
-        raise NotImplementedError(
-            "When not monkeypatched the only backup path implmented is `outside=True` with `loc='upper right'`"
-        )
+        loc = f"outside {outside} {loc}"
+    lgd.set_loc(loc)
