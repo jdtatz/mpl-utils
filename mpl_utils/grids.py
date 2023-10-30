@@ -1,6 +1,7 @@
+from typing import Union
+
 from matplotlib.figure import Figure
 from matplotlib.gridspec import GridSpecBase, SubplotSpec
-from typing import Union
 
 
 def add_inner_gridspec(
@@ -14,6 +15,4 @@ def add_inner_gridspec(
     elif isinstance(fig_spec, SubplotSpec):
         return fig_spec.subgridspec(nrows, ncols, **gridspec_kwargs)
     else:
-        raise TypeError(
-            f"Expected `fig_spec` to be either a `Figure` or a `SubplotSpec`, not a {type(fig_spec)}"
-        )
+        raise TypeError(f"Expected `fig_spec` to be either a `Figure` or a `SubplotSpec`, not a {type(fig_spec)}")

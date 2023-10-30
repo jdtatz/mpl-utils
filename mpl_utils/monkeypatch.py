@@ -4,10 +4,11 @@ def better_default_datetime_formatter():
     "This formatter is a candidate to become the default date tick formatter in future versions of Matplotlib"
     https://matplotlib.org/stable/gallery/ticks/date_concise_formatter.html
     """
-    import numpy as np
     import datetime
+
     import matplotlib.dates as mdates
     import matplotlib.units as munits
+    import numpy as np
 
     converter = mdates.ConciseDateConverter()
     munits.registry[np.datetime64] = converter
@@ -23,6 +24,7 @@ def mokeypatch_matplotlib_constrained_layout():
     https://github.com/matplotlib/matplotlib/pull/19743
     """
     from functools import wraps
+
     import matplotlib._constrained_layout as constrained_layout
 
     global _mokeypatched_matplotlib_constrained_layout
@@ -32,17 +34,7 @@ def mokeypatch_matplotlib_constrained_layout():
     make_layout_margins = constrained_layout.make_layout_margins
 
     @wraps(make_layout_margins)
-    def wrapped_make_layout_margins(
-        layoutgrids,
-        fig,
-        renderer,
-        *args,
-        w_pad=0,
-        h_pad=0,
-        hspace=0,
-        wspace=0,
-        **kwargs
-    ):
+    def wrapped_make_layout_margins(layoutgrids, fig, renderer, *args, w_pad=0, h_pad=0, hspace=0, wspace=0, **kwargs):
         ret = make_layout_margins(
             layoutgrids,
             fig,
@@ -65,9 +57,7 @@ def mokeypatch_matplotlib_constrained_layout():
                 h = bbox.height + 2 * h_pad
                 if (leg._loc in (3, 4) and leg._outside == "lower") or (leg._loc == 8):
                     layoutgrids[fig].edit_margin_min("bottom", h)
-                elif (leg._loc in (1, 2) and leg._outside == "upper") or (
-                    leg._loc == 9
-                ):
+                elif (leg._loc in (1, 2) and leg._outside == "upper") or (leg._loc == 9):
                     layoutgrids[fig].edit_margin_min("top", h)
                 elif leg._loc in (1, 4, 5, 7):
                     layoutgrids[fig].edit_margin_min("right", w)

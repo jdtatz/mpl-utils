@@ -1,8 +1,10 @@
 from typing import Union
-from typing_extensions import Literal
-import mpl_utils.monkeypatch as monkeypatch
+
 from matplotlib.figure import FigureBase
 from matplotlib.legend import Legend
+from typing_extensions import Literal
+
+import mpl_utils.monkeypatch as monkeypatch
 
 
 def deduped_figure_legend(fig: FigureBase, **legend_kwargs) -> Legend:
@@ -15,9 +17,7 @@ def deduped_figure_legend(fig: FigureBase, **legend_kwargs) -> Legend:
     return fig.legend(handles, labels, **legend_kwargs)
 
 
-def move_legend_outside(
-    lgd: Legend, outside: Union[bool, Literal["upper"], Literal["lower"]] = True
-):
+def move_legend_outside(lgd: Legend, outside: Union[bool, Literal["upper"], Literal["lower"]] = True):
     if not outside:
         return
     # Either the patch has been upstreamed or the monkeypatch has been applied
